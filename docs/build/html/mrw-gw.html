@@ -1,0 +1,165 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Using UFS Medium-Range Weather Application with Global Workflow &#8212; EPIC-Documentation 0.0.1 documentation</title>
+    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <script id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+    <script src="_static/jquery.js"></script>
+    <script src="_static/underscore.js"></script>
+    <script src="_static/doctools.js"></script>
+    <script src="_static/language_data.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="prev" title="Welcome to EPIC-Documentation!" href="index.html" />
+   
+  <link rel="stylesheet" href="_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <div class="section" id="using-ufs-medium-range-weather-application-with-global-workflow">
+<h1>Using UFS Medium-Range Weather Application with Global Workflow<a class="headerlink" href="#using-ufs-medium-range-weather-application-with-global-workflow" title="Permalink to this headline">¶</a></h1>
+</div>
+<div class="section" id="set-up">
+<h1>Set-up<a class="headerlink" href="#set-up" title="Permalink to this headline">¶</a></h1>
+<ol class="arabic">
+<li><p>Clone repository and checkout global workflow:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">git</span> <span class="n">clone</span> <span class="n">https</span><span class="p">:</span><span class="o">//</span><span class="n">github</span><span class="o">.</span><span class="n">com</span><span class="o">/</span><span class="n">ufs</span><span class="o">-</span><span class="n">community</span><span class="o">/</span><span class="n">ufs</span><span class="o">-</span><span class="n">mrweather</span><span class="o">-</span><span class="n">app</span><span class="o">.</span><span class="n">git</span>
+<span class="n">cd</span> <span class="n">ufs</span><span class="o">-</span><span class="n">mrweather</span><span class="o">-</span><span class="n">app</span>
+<span class="o">./</span><span class="n">manage_externals</span><span class="o">/</span><span class="n">checkout_externals</span>
+</pre></div>
+</div>
+</li>
+<li><p>Check if checkout of externals was successful using:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">./</span><span class="n">manage_externals</span><span class="o">/</span><span class="n">checkout_externals</span> <span class="o">-</span><span class="n">S</span>
+</pre></div>
+</div>
+</li>
+<li><p>Build UFS model and global-workflow components:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">sh</span> <span class="n">build_global</span><span class="o">-</span><span class="n">workflow</span><span class="o">.</span><span class="n">sh</span> <span class="p">[</span><span class="o">-</span><span class="n">c</span><span class="p">]</span>
+<span class="p">(</span><span class="n">ONLY</span> <span class="n">use</span> <span class="n">the</span> <span class="o">-</span><span class="n">c</span> <span class="n">option</span> <span class="n">to</span> <span class="nb">compile</span> <span class="k">for</span> <span class="n">coupled</span> <span class="n">UFS</span><span class="p">;</span> <span class="n">requires</span> <span class="n">different</span> <span class="n">physics</span> <span class="n">packages</span> <span class="ow">and</span> <span class="n">APP</span> <span class="n">argument</span> <span class="n">when</span> <span class="n">running</span>
+<span class="n">setup_expt</span><span class="o">.</span><span class="n">py</span> <span class="ow">in</span> <span class="n">step</span> <span class="mf">4.</span> <span class="p">)</span>
+</pre></div>
+</div>
+</li>
+<li><p>Create a COMROT and EXPDIR. The experiment and workflow set-up scripts in following steps will point to these paths. Initial conditions will also need to be placed in COMROT.</p></li>
+<li><p>Run experiment generator script:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>cd ufs-mrweather-app/global-workflow/ush/rocoto
+./setup_expt.py forecast-only --pslot $EXP_NAME --idate 2020010100 --edate 2020010118 --resdet 384 --gfs_cyc 4 --comrot $PATH_TO_YOUR_COMROT_DIR --expdir $PATH_TO_YOUR_EXPDIR
+
+(example with COMROT and EXPDIR paths)::
+
+./setup_expt.py forecast-only --pslot test --idate 2020010100 --edate 2020010118 --resdet 384 --gfs_cyc 4 --comrot /work/noaa/marine/Cameron.Book/ufs/COMROT --expdir /work/noaa/marine/Cameron.Book/ufs/EXPDIR
+</pre></div>
+</div>
+</li>
+<li><p>Copy IC files into COMROT/$PSLOT. Directory name should be like:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>gfs.20220101, with structure: gfs.$YYYYMMDD/CC/atmos. INPUT folder within …/atmos/ contains sfc files needed for GFS ATM to run.
+</pre></div>
+</div>
+</li>
+<li><p>Edit config.base in $EXPDIR/$PSLOT (ACCOUNT, HOMEDIR, STMP/PTMP, HPSSARCH)</p></li>
+<li><p>Run ./setup_workflow_fcstonly.py –expdir $EXPDIR/$PSLOT</p>
+<p>This will generate crontab and xml files for the experiment in $EXPDIR/$PSLOT.</p>
+</li>
+<li><p>Submit job through crontab by copying entry in $PSLOT.crontab into crontab via crontab -e.</p></li>
+<li><p>Monitor status of workflow using rocotostat:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>rocotostat -d /path/to/workflow/database/file -w /path/to/workflow/xml/file [-c YYYYMMDDCCmm,[YYYYMMDDCCmm,...]] [-t taskname,[taskname,...]] [-s] [-T]
+e.g.: rocotostat -d $PSLOT.db -w $PSLOT.xml
+</pre></div>
+</div>
+</li>
+<li><p>Check status of specific task/job:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">rocotocheck</span> <span class="o">-</span><span class="n">d</span> <span class="o">/</span><span class="n">path</span><span class="o">/</span><span class="n">to</span><span class="o">/</span><span class="n">workflow</span><span class="o">/</span><span class="n">database</span><span class="o">/</span><span class="n">file</span> <span class="o">-</span><span class="n">w</span> <span class="o">/</span><span class="n">path</span><span class="o">/</span><span class="n">to</span><span class="o">/</span><span class="n">workflow</span><span class="o">/</span><span class="n">xml</span><span class="o">/</span><span class="n">file</span> <span class="o">-</span><span class="n">c</span> <span class="n">YYYYMMDDCCmm</span> <span class="o">-</span><span class="n">t</span> <span class="n">taskname</span>
+</pre></div>
+</div>
+<p>Helpful documentation:
+<a class="reference external" href="https://github.com/NOAA-EMC/global-workflow/wiki/Run-Global-Workflow">https://github.com/NOAA-EMC/global-workflow/wiki/Run-Global-Workflow</a></p>
+</li>
+</ol>
+</div>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="index.html">EPIC-Documentation</a></h1>
+
+
+
+
+
+
+
+
+<h3>Navigation</h3>
+<ul class="current">
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Using UFS Medium-Range Weather Application with Global Workflow</a></li>
+<li class="toctree-l1"><a class="reference internal" href="#set-up">Set-up</a></li>
+</ul>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+      <li>Previous: <a href="index.html" title="previous chapter">Welcome to EPIC-Documentation!</a></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>$('#searchbox').show(0);</script>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2022, Cameron Book.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 3.1.2</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
+      
+      |
+      <a href="_sources/mrw-gw.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>
