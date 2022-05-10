@@ -15,6 +15,7 @@
     <script src="_static/language_data.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Using UFS_UTILS to prepare Initial Conditions for MRW" href="ufs_utils.html" />
     <link rel="prev" title="Welcome to EPIC-Documentation!" href="index.html" />
    
   <link rel="stylesheet" href="_static/custom.css" type="text/css" />
@@ -53,31 +54,40 @@
 <li><p>Build UFS model and global-workflow components:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">sh</span> <span class="n">build_global</span><span class="o">-</span><span class="n">workflow</span><span class="o">.</span><span class="n">sh</span> <span class="p">[</span><span class="o">-</span><span class="n">c</span><span class="p">]</span>
 <span class="p">(</span><span class="n">ONLY</span> <span class="n">use</span> <span class="n">the</span> <span class="o">-</span><span class="n">c</span> <span class="n">option</span> <span class="n">to</span> <span class="nb">compile</span> <span class="k">for</span> <span class="n">coupled</span> <span class="n">UFS</span><span class="p">;</span> <span class="n">requires</span> <span class="n">different</span> <span class="n">physics</span> <span class="n">packages</span> <span class="ow">and</span> <span class="n">APP</span> <span class="n">argument</span> <span class="n">when</span> <span class="n">running</span>
-<span class="n">setup_expt</span><span class="o">.</span><span class="n">py</span> <span class="ow">in</span> <span class="n">step</span> <span class="mf">4.</span> <span class="p">)</span>
+<span class="n">setup_expt</span><span class="o">.</span><span class="n">py</span> <span class="ow">in</span> <span class="n">step</span> <span class="mf">5.</span> <span class="p">)</span>
 </pre></div>
 </div>
 </li>
-<li><p>Create a COMROT and EXPDIR. The experiment and workflow set-up scripts in following steps will point to these paths. Initial conditions will also need to be placed in COMROT.</p></li>
+<li><p>Create COMROT and EXPDIR directories. The experiment and workflow set-up scripts in following steps will point to these paths (EXPDIR will contain model configuration files, Rocoto/Cron files, Rocoto/SLURM logs; COMROT will contain experiment outputs &amp; GFS model logs). Initial conditions also need to be staged in COMROT (step 6).</p></li>
 <li><p>Run experiment generator script:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span>cd ufs-mrweather-app/global-workflow/ush/rocoto
-./setup_expt.py forecast-only --pslot $EXP_NAME --idate 2020010100 --edate 2020010118 --resdet 384 --gfs_cyc 4 --comrot $PATH_TO_YOUR_COMROT_DIR --expdir $PATH_TO_YOUR_EXPDIR
+./setup_expt.py forecast-only --pslot $EXP_NAME --idate $YYYYMMDDCC --edate $YYYYMMDDCC --resdet $MODEL_RESOLUTION --comrot $PATH_TO_YOUR_COMROT_DIR --expdir $PATH_TO_YOUR_EXPDIR
 
 (example with COMROT and EXPDIR paths)::
 
-./setup_expt.py forecast-only --pslot test --idate 2020010100 --edate 2020010118 --resdet 384 --gfs_cyc 4 --comrot /work/noaa/marine/Cameron.Book/ufs/COMROT --expdir /work/noaa/marine/Cameron.Book/ufs/EXPDIR
+./setup_expt.py forecast-only --pslot test --idate 2020010118 --edate 2020010118 --resdet 384 --comrot /work/noaa/stmp/cbook/COMROT --expdir /work/noaa/epic-ps/cbook/uncoupled/EXPDIR
 </pre></div>
 </div>
 </li>
-<li><p>Copy IC files into COMROT/$PSLOT. Directory name should be like:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>gfs.20220101, with structure: gfs.$YYYYMMDD/CC/atmos. INPUT folder within …/atmos/ contains sfc files needed for GFS ATM to run.
+</ol>
+<blockquote>
+<div><p>Note that idate=edate, which seems to be required for free-forecast mode to run properly without attempting to invoke DA components of the workflow.</p>
+</div></blockquote>
+<ol class="arabic" start="6">
+<li><p>Copy IC files into COMROT/$PSLOT, where $PSLOT is the name of the experiment-specific subdirectory created in step 5. IC directory name should be like:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>gfs.20220101, with structure: gfs.$YYYYMMDD/CC/atmos. INPUT folder within …/atmos/ contains IC files needed for GFS ATM to run.
 </pre></div>
 </div>
 </li>
-<li><p>Edit config.base in $EXPDIR/$PSLOT (ACCOUNT, HOMEDIR, STMP/PTMP, HPSSARCH)</p></li>
+<li><p>Edit config.base in $EXPDIR/$PSLOT (ACCOUNT, HOMEDIR, STMP/PTMP, FHMAX). ACCOUNT should correspond to a project in which you are able to submit/run jobs (e.g.: marine-cpu, fv3-cpu), HOMEDIR is a ‘no-scrub’ path where archive files will be placed, STMP/PTMP are large-disk-space areas where run files (RUNDIRS) are temporarily located, but scrubbed after experiment completion. FHMAX_GFS_[OO, 06, 12, 18] sets the maximum number of hours for the free-forecast to run (default is 384.); to run, for example, the forecast model for two days, change to 48.</p></li>
 <li><p>Run ./setup_workflow_fcstonly.py –expdir $EXPDIR/$PSLOT</p>
 <p>This will generate crontab and xml files for the experiment in $EXPDIR/$PSLOT.</p>
 </li>
-<li><p>Submit job through crontab by copying entry in $PSLOT.crontab into crontab via crontab -e.</p></li>
+<li><p>Submit job through crontab by copying entry in $PSLOT.crontab into crontab via crontab -e or by doing:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>crontab $PSLOT.crontab
+</pre></div>
+</div>
+</li>
 <li><p>Monitor status of workflow using rocotostat:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span>rocotostat -d /path/to/workflow/database/file -w /path/to/workflow/xml/file [-c YYYYMMDDCCmm,[YYYYMMDDCCmm,...]] [-t taskname,[taskname,...]] [-s] [-T]
 e.g.: rocotostat -d $PSLOT.db -w $PSLOT.xml
@@ -115,12 +125,17 @@ e.g.: rocotostat -d $PSLOT.db -w $PSLOT.xml
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Using UFS Medium-Range Weather Application with Global Workflow</a></li>
 <li class="toctree-l1"><a class="reference internal" href="#set-up">Set-up</a></li>
 </ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="ufs_utils.html">Using UFS_UTILS to prepare Initial Conditions for MRW</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ufs_utils.html#cold-start-free-forecast-only">Cold Start (free-forecast only)</a></li>
+</ul>
 
 <div class="relations">
 <h3>Related Topics</h3>
 <ul>
   <li><a href="index.html">Documentation overview</a><ul>
       <li>Previous: <a href="index.html" title="previous chapter">Welcome to EPIC-Documentation!</a></li>
+      <li>Next: <a href="ufs_utils.html" title="next chapter">Using UFS_UTILS to prepare Initial Conditions for MRW</a></li>
   </ul></li>
 </ul>
 </div>

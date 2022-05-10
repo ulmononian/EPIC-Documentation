@@ -1,0 +1,130 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Using UFS_UTILS to prepare Initial Conditions for MRW &#8212; EPIC-Documentation 0.0.1 documentation</title>
+    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <script id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+    <script src="_static/jquery.js"></script>
+    <script src="_static/underscore.js"></script>
+    <script src="_static/doctools.js"></script>
+    <script src="_static/language_data.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="prev" title="Using UFS Medium-Range Weather Application with Global Workflow" href="mrw-gw.html" />
+   
+  <link rel="stylesheet" href="_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <div class="section" id="using-ufs-utils-to-prepare-initial-conditions-for-mrw">
+<h1>Using UFS_UTILS to prepare Initial Conditions for MRW<a class="headerlink" href="#using-ufs-utils-to-prepare-initial-conditions-for-mrw" title="Permalink to this headline">¶</a></h1>
+</div>
+<div class="section" id="cold-start-free-forecast-only">
+<h1>Cold Start (free-forecast only)<a class="headerlink" href="#cold-start-free-forecast-only" title="Permalink to this headline">¶</a></h1>
+<p>1. Utilize UFS_UTILS to retrieve GFSv16 (FV3GFS) files from HPSS and convert them to lower resolution / different number of levels than operational GFS (C768C384L127). If the user wishes to simply retrieve C768 files, no conversion is needed, they can be retrieved from HPSS directly or the chgres option in the UFS_UTILS gdas_init config can be turned off.
+To run UFS_UTILS (also available in build of ufs-mrw within the global-workflow checkout):</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>git clone --recursive https://github.com/NOAA-EMC/UFS_UTILS.git
+sh build_all.sh
+cd fix
+sh link_fixdirs.sh emc $MACHINE
+cd ../util/gdas_init
+</pre></div>
+</div>
+<p>where $MACHINE is Orion, Hera, etc..
+Within …/utils/gdas_init, adjust config file to set desired resolution/levels of files to be converted, output data directory, etc.. $CRES_HIRES (desired resolution, if different than C768), $LEVS (number of hybrid layers), $RUN_CHGRES (To run chgres, set to ‘yes’. To extract data only, set to ‘no’.), $EXTRACT_DATA (Set to ‘yes’ to extract data from HPSS. If data has been extracted and is located in $EXTRACT_DIR, set to ‘no’.). More details can be found in header of config.
+Run the driver to submit the HPSS retrieval job and chgres job via:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>./driver.$MACHINE.sh
+</pre></div>
+</div>
+<p>After jobs run, converted files should be located in the output directory specified in config. If not, check log files in …/util/gdas_init. An example of files converted from C768 to C384 and C96 can be found here: /scratch2/NCEPDEV/marine/Cameron.Book/gfs_data/chgres. The corresponding UFS_UTILS configuration used to do the retrievals/conversions (where the config settings can also be viewed) is here: /scratch2/NCEPDEV/marine/Cameron.Book/UFS_UTILS/util/gdas_init.</p>
+</div>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="index.html">EPIC-Documentation</a></h1>
+
+
+
+
+
+
+
+
+<h3>Navigation</h3>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="mrw-gw.html">Using UFS Medium-Range Weather Application with Global Workflow</a></li>
+<li class="toctree-l1"><a class="reference internal" href="mrw-gw.html#set-up">Set-up</a></li>
+</ul>
+<ul class="current">
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Using UFS_UTILS to prepare Initial Conditions for MRW</a></li>
+<li class="toctree-l1"><a class="reference internal" href="#cold-start-free-forecast-only">Cold Start (free-forecast only)</a></li>
+</ul>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+      <li>Previous: <a href="mrw-gw.html" title="previous chapter">Using UFS Medium-Range Weather Application with Global Workflow</a></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>$('#searchbox').show(0);</script>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2022, Cameron Book.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 3.1.2</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
+      
+      |
+      <a href="_sources/ufs_utils.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

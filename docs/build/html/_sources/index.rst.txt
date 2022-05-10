@@ -13,6 +13,14 @@ UFS MRW workflow
 
    UFS-MRW application workflow <mrw-gw>
 
+Using UFS_UTILS to Prepare Initial Conditions for MRW
+=====================================================
+
+.. toctree::
+      :maxdepth: 2
+
+   How to use CHGRES utility to convert retrieve and/or convert C768 files. <ufs_utils>
+
 
 Indices and tables
 ==================
