@@ -17,9 +17,9 @@ Using UFS_UTILS to Prepare Initial Conditions for MRW
 =====================================================
 
 .. toctree::
-      :maxdepth: 2
+   :maxdepth: 2
 
-   How to use CHGRES utility to convert retrieve and/or convert C768 files. <ufs_utils>
+   How to use CHGRES utility to convert retrieve and/or convert C768 files <ufs_utils>
 
 
 Indices and tables
