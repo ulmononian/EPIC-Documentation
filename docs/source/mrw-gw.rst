@@ -18,30 +18,34 @@ Set-up
 
       sh build_global-workflow.sh [-c]
       (ONLY use the -c option to compile for coupled UFS; requires different physics packages and APP argument when running
-      setup_expt.py in step 4. )
+      setup_expt.py in step 5. )
 
-4. Create a COMROT and EXPDIR. The experiment and workflow set-up scripts in following steps will point to these paths. Initial conditions will also need to be placed in COMROT.
+4. Create COMROT and EXPDIR directories. The experiment and workflow set-up scripts in following steps will point to these paths (EXPDIR will contain model configuration files, Rocoto/Cron files, Rocoto/SLURM logs; COMROT will contain experiment outputs & GFS model logs). Initial conditions also need to be staged in COMROT (step 6).
 
 5. Run experiment generator script::
 
       cd ufs-mrweather-app/global-workflow/ush/rocoto
-      ./setup_expt.py forecast-only --pslot $EXP_NAME --idate 2020010100 --edate 2020010118 --resdet 384 --gfs_cyc 4 --comrot $PATH_TO_YOUR_COMROT_DIR --expdir $PATH_TO_YOUR_EXPDIR
+      ./setup_expt.py forecast-only --pslot $EXP_NAME --idate $YYYYMMDDCC --edate $YYYYMMDDCC --resdet $MODEL_RESOLUTION --comrot $PATH_TO_YOUR_COMROT_DIR --expdir $PATH_TO_YOUR_EXPDIR
 
       (example with COMROT and EXPDIR paths)::
 
-      ./setup_expt.py forecast-only --pslot test --idate 2020010100 --edate 2020010118 --resdet 384 --gfs_cyc 4 --comrot /work/noaa/marine/Cameron.Book/ufs/COMROT --expdir /work/noaa/marine/Cameron.Book/ufs/EXPDIR
+      ./setup_expt.py forecast-only --pslot test --idate 2020010118 --edate 2020010118 --resdet 384 --comrot /work/noaa/stmp/cbook/COMROT --expdir /work/noaa/epic-ps/cbook/uncoupled/EXPDIR
+  
+  Note that idate=edate, which seems to be required for free-forecast mode to run properly without attempting to invoke DA components of the workflow.
 
-6. Copy IC files into COMROT/$PSLOT. Directory name should be like::
+6. Copy IC files into COMROT/$PSLOT, where $PSLOT is the name of the experiment-specific subdirectory created in step 5. IC directory name should be like::
      
-      gfs.20220101, with structure: gfs.$YYYYMMDD/CC/atmos. INPUT folder within …/atmos/ contains sfc files needed for GFS ATM to run.
+      gfs.20220101, with structure: gfs.$YYYYMMDD/CC/atmos. INPUT folder within …/atmos/ contains IC files needed for GFS ATM to run.
 
-7. Edit config.base in $EXPDIR/$PSLOT (ACCOUNT, HOMEDIR, STMP/PTMP, HPSSARCH)
+7. Edit config.base in $EXPDIR/$PSLOT (ACCOUNT, HOMEDIR, STMP/PTMP, FHMAX). ACCOUNT should correspond to a project in which you are able to submit/run jobs (e.g.: marine-cpu, fv3-cpu), HOMEDIR is a 'no-scrub' path where archive files will be placed, STMP/PTMP are large-disk-space areas where run files (RUNDIRS) are temporarily located, but scrubbed after experiment completion. FHMAX_GFS_[OO, 06, 12, 18] sets the maximum number of hours for the free-forecast to run (default is 384.); to run, for example, the forecast model for two days, change to 48.
 
 8. Run ./setup_workflow_fcstonly.py --expdir $EXPDIR/$PSLOT
 
    This will generate crontab and xml files for the experiment in $EXPDIR/$PSLOT.
 
-9.  Submit job through crontab by copying entry in $PSLOT.crontab into crontab via crontab -e.
+9.  Submit job through crontab by copying entry in $PSLOT.crontab into crontab via crontab -e or by doing::
+
+      crontab $PSLOT.crontab
 
 10. Monitor status of workflow using rocotostat::
       
