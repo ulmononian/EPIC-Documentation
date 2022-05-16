@@ -59,6 +59,19 @@ Set-up
     Helpful documentation:
     https://github.com/NOAA-EMC/global-workflow/wiki/Run-Global-Workflow
 
+Initial Conditions
+^^^^^^^^^^^^^^^^^^
+
+The FV3GFS component of the global workflow requires GFS intitial conditions at the appropriate date/time and resolution/layer number to intialize the FV3 model for a given experiment window. GFS initial conditions are available for retrival through HPSS on Hera, but must be staged on Orion and other machines without HPSS access. Operational GFS intitial conditions are in C768 resolution, thus for lower-resolution experiments, the initial condition files must be remapped into the desired resolution. The retrieval and conversion of initial conditions can be done automatically on Hera during the 'getic' and 'gfs_init' subtasks, but must be staged and converted into FV3 tile format (both for C768 and lower resolution tests) on Orion and other machines. The UFS_UTIL tool "chgres" can be implemented to handle the conversion from raw GFS intial condition files into the FV3 format (instructions here:https://github.com/ulmononian/EPIC-Documentation/blob/main/docs/source/ufs_utils.rst). Once converted into the desired resolution in FV3 format, initial conditions should be staged in the experment-specific subdirectory of the user's COMROT.
+
+Example initial conditons for 2018 Hurricane Michael (all resolutions) are available here: /work/noaa/epic-ps/ufs-mrw-v2.0/mrw_test_cases/ICs.
+
+
+Test Cases
+^^^^^^^^^^
+
+A suite of tests were conducted corresponding to the 2018 Hurricane Michael UFS Weather Model test case (https://ufs-case-studies.readthedocs.io/en/develop/2018Michael.html). The tests were initialized at 00z October 7, 2018 and ran for a 24-hour forecast length. Tests were performed at all resolutions (C768, C384, C192, C96, C48). Test outputs and configurations are located here: /work/noaa/epic-ps/ufs-mrw-v2.0/mrw_test_cases.
+
 
 
 
