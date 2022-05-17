@@ -51,8 +51,8 @@ Set-up
           include PSLOT folder at end of path, it will be built for you. [default: $HOME]
         *$ICSDIR is the path to the initial conditions. This is handled differently depending on whether
           $APP is S2S or not. If $APP is ATM or ATMW, this setting is currently ignored. If $APP is S2S
-           or S2SW, ICs are copied from the central location to this location and the argument is required. 
-           Central locations of ICs on Hera and Orion can be found in ufs-mrweather-app/global-workflow/parm/config. 
+          or S2SW, ICs are copied from the central location to this location and the argument is required. 
+          Central locations of ICs on Hera and Orion can be found in ufs-mrweather-app/global-workflow/parm/config. 
 
    Note that $IDATE should equal $EDATE for forecast-only experiments.
    
