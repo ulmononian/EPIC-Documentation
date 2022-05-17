@@ -28,7 +28,8 @@ Set-up
 
    where::
 
-        *forecast-only is the first positional argument that instructs the setup script to produce an experiment directory for forecast only experiments.
+        *forecast-only is the first positional argument that instructs the setup script to produce
+         an experiment directory for forecast only experiments.
         *$APP is the target application, one of:
         *ATM: atmosphere-only [default]
         *ATMW: atm-wave
@@ -36,15 +37,22 @@ Set-up
         *S2SW: atm-ocean-ice-wave
         *--aerosols, if set, will turn on the aerosol model (GOCART)
         *$START is the start type (warm or cold [default])
-        *$IDATE is the initial start date of your run (first cycle CDATE, YYYYMMDDCC)*
-        *$EDATE is the ending date of your run (YYYYMMDDCC) and is the last cycle that will complete*
+        *$IDATE is the initial start date of your run (first cycle CDATE, YYYYMMDDCC)
+        *$EDATE is the ending date of your run (YYYYMMDDCC) and is the last cycle that will complete
         *$PSLOT is the name of your experiment [default: test]
-        *$CONFIGDIR is the path to the /config folder under the copy of the system you're using [default: $TOP_OF_CLONE/parm/config/]
+        *$CONFIGDIR is the path to the /config folder under the copy of the system you're using 
+         [default: $TOP_OF_CLONE/parm/config/]
         *$RESDET is the FV3 resolution (i.e. 768 for C768) [default: 384]
         *$GFS_CYC is the forecast frequency (0 = none, 1 = 00z only [default], 2 = 00z & 12z, 4 = all cycles)
-        *$COMROT is the path to your experiment output directory. DO NOT include PSLOT folder at end of path, it’ll be built for you. [default: $HOME]
-        *$EXPDIR is the path to your experiment directory where your configs will be placed and where you will find your workflow monitoring files (i.e. rocoto database and xml file). DO NOT include PSLOT folder at end of path, it will be built for you. [default: $HOME]
-        *$ICSDIR is the path to the initial conditions. This is handled differently depending on whether $APP is S2S or not. If $APP is ATM or ATMW, this setting is currently ignored. If $APP is S2S or S2SW, ICs are copied from the central location to this location and the argument is required. Central locations of ICs on Hera and Orion can be found in ufs-mrweather-app/global-workflow/parm/config. 
+        *$COMROT is the path to your experiment output directory. DO NOT include PSLOT folder at end 
+          of path, it’ll be built for you. [default: $HOME]
+        *$EXPDIR is the path to your experiment directory where your configs will be placed and where
+          you will find your workflow monitoring files (i.e. rocoto database and xml file). DO NOT 
+          include PSLOT folder at end of path, it will be built for you. [default: $HOME]
+        *$ICSDIR is the path to the initial conditions. This is handled differently depending on whether
+          $APP is S2S or not. If $APP is ATM or ATMW, this setting is currently ignored. If $APP is S2S
+           or S2SW, ICs are copied from the central location to this location and the argument is required. 
+           Central locations of ICs on Hera and Orion can be found in ufs-mrweather-app/global-workflow/parm/config. 
 
    Note that $IDATE should equal $EDATE for forecast-only experiments.
    
@@ -57,5 +65,7 @@ Example test
 
 A cold-start, forecast-only S2SW (atmosphere-ocean-ice-wave) experiment at C384 beginning on 2013100100 (without aerosols) was run for 24 hours on Orion. The experiment path is: /work/noaa/epic-ps/ufs-mrw-v2.0/coupled/EXPDIR/C384/2013100100_test. On Orion, ICs are pulled automatically from /work/noaa/global/wkolczyn/noscrub/global-workflow/IC. Note that only a limited number of ICs are available at this location. To test other dates, users need to locate and stage the appropriate atmosphere, ocean, sea ice, and wave ICs. The command to generate the experiment was::
 
-./setup_expt.py forecast-only --pslot 2013100100_test --idate 2013100100 --edate 2013100100 --app S2SW --resdet 384 --start cold --comrot /work/noaa/epic-ps/ufs-mrw-v2.0/coupled/COMROT --expdir /work/noaa/epic-ps/ufs-mrw-v2.0/coupled/EXPDIR/C384 --icsdir  /work/noaa/epic-ps/ufs-mrw-v2.0/coupled/ICSDIR
+./setup_expt.py forecast-only --pslot 2013100100_test --idate 2013100100 --edate 2013100100 --app S2SW 
+--resdet 384 --start cold --comrot /work/noaa/epic-ps/ufs-mrw-v2.0/coupled/COMROT 
+--expdir /work/noaa/epic-ps/ufs-mrw-v2.0/coupled/EXPDIR/C384 --icsdir  /work/noaa/epic-ps/ufs-mrw-v2.0/coupled/ICSDIR
 
