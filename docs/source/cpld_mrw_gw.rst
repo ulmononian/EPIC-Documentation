@@ -27,6 +27,7 @@ Set-up
         ./setup_expt.py forecast-only --idate $IDATE --edate $EDATE [--app $APP] [--aerosols] [--start $START] [--gfs_cyc $GFS_CYC] [--resdet $RESDET] [--pslot $PSLOT] [--configdir $CONFIGDIR] [--comrot $COMROT] [--expdir $EXPDIR] [--icsdir $ICSDIR]
 
    where::
+
         *forecast-only is the first positional argument that instructs the setup script to produce an experiment directory for forecast only experiments.
         *$APP is the target application, one of:
         *ATM: atmosphere-only [default]
@@ -45,11 +46,11 @@ Set-up
         *$EXPDIR is the path to your experiment directory where your configs will be placed and where you will find your workflow monitoring files (i.e. rocoto database and xml file). DO NOT include PSLOT folder at end of path, it will be built for you. [default: $HOME]
         *$ICSDIR is the path to the initial conditions. This is handled differently depending on whether $APP is S2S or not. If $APP is ATM or ATMW, this setting is currently ignored. If $APP is S2S or S2SW, ICs are copied from the central location to this location and the argument is required. Central locations of ICs on Hera and Orion can be found in ufs-mrweather-app/global-workflow/parm/config. 
 
-Note that $IDATE should equal $EDATE for forecast-only experiments.
-
-$GFS_CYC, $CONFIGDIR, and --aerosols can be removed when invoking ./setup_expt.py, as the default $GFS_CYC is one (necessary for forecast-only experiments), the default $CONFIGDIR ($TOP_OF_CLONE/parm/config) need only be changed if the user wishes to use non-standard configurations, and --aerosols only needs to be included if the user wishes to include the GOCART aerosol model component (currently experiencing issues).
-
-Edit config.base in $EXPDIR/$PSLOT (ACCOUNT, HOMEDIR, STMP/PTMP, FHMAX). ACCOUNT should correspond to a project in which you are able to submit/run jobs (e.g.: marine-cpu, fv3-cpu), HOMEDIR is a ‘no-scrub’ path where archive files will be placed, STMP/PTMP are large-disk-space areas where run files (RUNDIRS) are temporarily located, but scrubbed after experiment completion. FHMAX_GFS_[OO, 06, 12, 18] sets the maximum number of hours for the free-forecast to run (default is 384.); to run, for example, the forecast model for two days, change to 48.
+   Note that $IDATE should equal $EDATE for forecast-only experiments.
+   
+   $GFS_CYC, $CONFIGDIR, and --aerosols can be removed when invoking ./setup_expt.py, as the default $GFS_CYC is one (necessary for forecast-only experiments), the default $CONFIGDIR ($TOP_OF_CLONE/parm/config) need only be changed if the user wishes to use non-standard configurations, and --aerosols only needs to be included if the user wishes to include the GOCART aerosol model component (currently experiencing issues).
+   
+   Edit config.base in $EXPDIR/$PSLOT (ACCOUNT, HOMEDIR, STMP/PTMP, FHMAX). ACCOUNT should correspond to a project in which you are able to submit/run jobs (e.g.: marine-cpu, fv3-cpu), HOMEDIR is a ‘no-scrub’ path where archive files will be placed, STMP/PTMP are large-disk-space areas where run files (RUNDIRS) are temporarily located, but scrubbed after experiment completion. FHMAX_GFS_[OO, 06, 12, 18] sets the maximum number of hours for the free-forecast to run (default is 384.); to run, for example, the forecast model for two days, change to 48.
 
 Example test
 ^^^^^^^^^^^^

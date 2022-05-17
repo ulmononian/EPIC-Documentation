@@ -6,31 +6,40 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Using UFS Medium-Range Weather Application with Global Workflow for Coupled Experiments &#8212; EPIC-Documentation 0.0.1 documentation</title>
-    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="_static/classic.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
     <script id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
     <script src="_static/jquery.js"></script>
     <script src="_static/underscore.js"></script>
     <script src="_static/doctools.js"></script>
     <script src="_static/language_data.js"></script>
+    
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
     <link rel="next" title="Using UFS_UTILS to prepare Initial Conditions for MRW" href="ufs_utils.html" />
-    <link rel="prev" title="Using UFS Medium-Range Weather Application with Global Workflow for Uncoupled Experiments" href="mrw-gw.html" />
-   
-  <link rel="stylesheet" href="_static/custom.css" type="text/css" />
-  
-  
-  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
-
+    <link rel="prev" title="Using UFS Medium-Range Weather Application with Global Workflow for Uncoupled Experiments" href="mrw-gw.html" /> 
   </head><body>
-  
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="ufs_utils.html" title="Using UFS_UTILS to prepare Initial Conditions for MRW"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="mrw-gw.html" title="Using UFS Medium-Range Weather Application with Global Workflow for Uncoupled Experiments"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">EPIC-Documentation 0.0.1 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">Using UFS Medium-Range Weather Application with Global Workflow for Coupled Experiments</a></li> 
+      </ul>
+    </div>  
 
     <div class="document">
       <div class="documentwrapper">
         <div class="bodywrapper">
-          
-
           <div class="body" role="main">
             
   <div class="section" id="using-ufs-medium-range-weather-application-with-global-workflow-for-coupled-experiments">
@@ -63,31 +72,31 @@
 ./setup_expt.py forecast-only --idate $IDATE --edate $EDATE [--app $APP] [--aerosols] [--start $START] [--gfs_cyc $GFS_CYC] [--resdet $RESDET] [--pslot $PSLOT] [--configdir $CONFIGDIR] [--comrot $COMROT] [--expdir $EXPDIR] [--icsdir $ICSDIR]
 </pre></div>
 </div>
-<dl class="simple">
-<dt>where::</dt><dd><p><em>forecast-only is the first positional argument that instructs the setup script to produce an experiment directory for forecast only experiments.
+<p>where:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>*forecast-only is the first positional argument that instructs the setup script to produce an experiment directory for forecast only experiments.
 *$APP is the target application, one of:
 *ATM: atmosphere-only [default]
 *ATMW: atm-wave
 *S2S: atm-ocean-ice
 *S2SW: atm-ocean-ice-wave
-*–aerosols, if set, will turn on the aerosol model (GOCART)
+*--aerosols, if set, will turn on the aerosol model (GOCART)
 *$START is the start type (warm or cold [default])
-*$IDATE is the initial start date of your run (first cycle CDATE, YYYYMMDDCC)</em>
-<em>$EDATE is the ending date of your run (YYYYMMDDCC) and is the last cycle that will complete</em>
-<a href="#id1"><span class="problematic" id="id2">*</span></a>$PSLOT is the name of your experiment [default: test]
-<a href="#id3"><span class="problematic" id="id4">*</span></a>$CONFIGDIR is the path to the /config folder under the copy of the system you’re using [default: $TOP_OF_CLONE/parm/config/]
-<a href="#id5"><span class="problematic" id="id6">*</span></a>$RESDET is the FV3 resolution (i.e. 768 for C768) [default: 384]
-<a href="#id7"><span class="problematic" id="id8">*</span></a>$GFS_CYC is the forecast frequency (0 = none, 1 = 00z only [default], 2 = 00z &amp; 12z, 4 = all cycles)
-<a href="#id9"><span class="problematic" id="id10">*</span></a>$COMROT is the path to your experiment output directory. DO NOT include PSLOT folder at end of path, it’ll be built for you. [default: $HOME]
-<a href="#id11"><span class="problematic" id="id12">*</span></a>$EXPDIR is the path to your experiment directory where your configs will be placed and where you will find your workflow monitoring files (i.e. rocoto database and xml file). DO NOT include PSLOT folder at end of path, it will be built for you. [default: $HOME]
-<a href="#id13"><span class="problematic" id="id14">*</span></a>$ICSDIR is the path to the initial conditions. This is handled differently depending on whether $APP is S2S or not. If $APP is ATM or ATMW, this setting is currently ignored. If $APP is S2S or S2SW, ICs are copied from the central location to this location and the argument is required. Central locations of ICs on Hera and Orion can be found in ufs-mrweather-app/global-workflow/parm/config.</p>
-</dd>
-</dl>
-</li>
-</ol>
+*$IDATE is the initial start date of your run (first cycle CDATE, YYYYMMDDCC)*
+*$EDATE is the ending date of your run (YYYYMMDDCC) and is the last cycle that will complete*
+*$PSLOT is the name of your experiment [default: test]
+*$CONFIGDIR is the path to the /config folder under the copy of the system you&#39;re using [default: $TOP_OF_CLONE/parm/config/]
+*$RESDET is the FV3 resolution (i.e. 768 for C768) [default: 384]
+*$GFS_CYC is the forecast frequency (0 = none, 1 = 00z only [default], 2 = 00z &amp; 12z, 4 = all cycles)
+*$COMROT is the path to your experiment output directory. DO NOT include PSLOT folder at end of path, it’ll be built for you. [default: $HOME]
+*$EXPDIR is the path to your experiment directory where your configs will be placed and where you will find your workflow monitoring files (i.e. rocoto database and xml file). DO NOT include PSLOT folder at end of path, it will be built for you. [default: $HOME]
+*$ICSDIR is the path to the initial conditions. This is handled differently depending on whether $APP is S2S or not. If $APP is ATM or ATMW, this setting is currently ignored. If $APP is S2S or S2SW, ICs are copied from the central location to this location and the argument is required. Central locations of ICs on Hera and Orion can be found in ufs-mrweather-app/global-workflow/parm/config.
+</pre></div>
+</div>
 <p>Note that $IDATE should equal $EDATE for forecast-only experiments.</p>
 <p>$GFS_CYC, $CONFIGDIR, and –aerosols can be removed when invoking ./setup_expt.py, as the default $GFS_CYC is one (necessary for forecast-only experiments), the default $CONFIGDIR ($TOP_OF_CLONE/parm/config) need only be changed if the user wishes to use non-standard configurations, and –aerosols only needs to be included if the user wishes to include the GOCART aerosol model component (currently experiencing issues).</p>
 <p>Edit config.base in $EXPDIR/$PSLOT (ACCOUNT, HOMEDIR, STMP/PTMP, FHMAX). ACCOUNT should correspond to a project in which you are able to submit/run jobs (e.g.: marine-cpu, fv3-cpu), HOMEDIR is a ‘no-scrub’ path where archive files will be placed, STMP/PTMP are large-disk-space areas where run files (RUNDIRS) are temporarily located, but scrubbed after experiment completion. FHMAX_GFS_[OO, 06, 12, 18] sets the maximum number of hours for the free-forecast to run (default is 384.); to run, for example, the forecast model for two days, change to 48.</p>
+</li>
+</ol>
 </div>
 <div class="section" id="example-test">
 <h1>Example test<a class="headerlink" href="#example-test" title="Permalink to this headline">¶</a></h1>
@@ -98,45 +107,32 @@
 </div>
 
 
+            <div class="clearer"></div>
           </div>
-          
         </div>
       </div>
       <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
         <div class="sphinxsidebarwrapper">
-<h1 class="logo"><a href="index.html">EPIC-Documentation</a></h1>
-
-
-
-
-
-
-
-
-<h3>Navigation</h3>
-<ul class="current">
-<li class="toctree-l1"><a class="reference internal" href="mrw-gw.html">Using UFS Medium-Range Weather Application with Global Workflow for Uncoupled Experiments</a></li>
-<li class="toctree-l1"><a class="reference internal" href="mrw-gw.html#set-up">Set-up</a></li>
-<li class="toctree-l1"><a class="reference internal" href="mrw-gw.html#initial-conditions">Initial Conditions</a></li>
-<li class="toctree-l1"><a class="reference internal" href="mrw-gw.html#test-cases">Test Cases</a></li>
-<li class="toctree-l1 current"><a class="current reference internal" href="#">Using UFS Medium-Range Weather Application with Global Workflow for Coupled Experiments</a></li>
-<li class="toctree-l1"><a class="reference internal" href="#set-up">Set-up</a></li>
-<li class="toctree-l1"><a class="reference internal" href="#example-test">Example test</a></li>
-</ul>
-<ul>
-<li class="toctree-l1"><a class="reference internal" href="ufs_utils.html">Using UFS_UTILS to prepare Initial Conditions for MRW</a></li>
-<li class="toctree-l1"><a class="reference internal" href="ufs_utils.html#cold-start-free-forecast-only">Cold Start (free-forecast only)</a></li>
+  <h3><a href="index.html">Table of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Using UFS Medium-Range Weather Application with Global Workflow for Coupled Experiments</a></li>
+<li><a class="reference internal" href="#set-up">Set-up</a></li>
+<li><a class="reference internal" href="#example-test">Example test</a></li>
 </ul>
 
-<div class="relations">
-<h3>Related Topics</h3>
-<ul>
-  <li><a href="index.html">Documentation overview</a><ul>
-      <li>Previous: <a href="mrw-gw.html" title="previous chapter">Using UFS Medium-Range Weather Application with Global Workflow for Uncoupled Experiments</a></li>
-      <li>Next: <a href="ufs_utils.html" title="next chapter">Using UFS_UTILS to prepare Initial Conditions for MRW</a></li>
-  </ul></li>
-</ul>
-</div>
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="mrw-gw.html"
+                        title="previous chapter">Using UFS Medium-Range Weather Application with Global Workflow for Uncoupled Experiments</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="ufs_utils.html"
+                        title="next chapter">Using UFS_UTILS to prepare Initial Conditions for MRW</a></p>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/cpld_mrw_gw.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
 <div id="searchbox" style="display: none" role="search">
   <h3 id="searchlabel">Quick search</h3>
     <div class="searchformwrapper">
@@ -147,32 +143,29 @@
     </div>
 </div>
 <script>$('#searchbox').show(0);</script>
-
-
-
-
-
-
-
-
         </div>
       </div>
       <div class="clearer"></div>
     </div>
-    <div class="footer">
-      &copy;2022, Cameron Book.
-      
-      |
-      Powered by <a href="http://sphinx-doc.org/">Sphinx 3.1.2</a>
-      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
-      
-      |
-      <a href="_sources/cpld_mrw_gw.rst.txt"
-          rel="nofollow">Page source</a>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="ufs_utils.html" title="Using UFS_UTILS to prepare Initial Conditions for MRW"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="mrw-gw.html" title="Using UFS Medium-Range Weather Application with Global Workflow for Uncoupled Experiments"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">EPIC-Documentation 0.0.1 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">Using UFS Medium-Range Weather Application with Global Workflow for Coupled Experiments</a></li> 
+      </ul>
     </div>
-
-    
-
-    
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2022, Cameron Book.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 3.1.2.
+    </div>
   </body>
 </html>
