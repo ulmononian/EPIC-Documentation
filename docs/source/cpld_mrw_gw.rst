@@ -65,7 +65,5 @@ Example test
 
 A cold-start, forecast-only S2SW (atmosphere-ocean-ice-wave) experiment at C384 beginning on 2013100100 (without aerosols) was run for 24 hours on Orion. The experiment path is: /work/noaa/epic-ps/ufs-mrw-v2.0/coupled/EXPDIR/C384/2013100100_test. On Orion, ICs are pulled automatically from /work/noaa/global/wkolczyn/noscrub/global-workflow/IC. Note that only a limited number of ICs are available at this location. To test other dates, users need to locate and stage the appropriate atmosphere, ocean, sea ice, and wave ICs. The command to generate the experiment was::
 
-./setup_expt.py forecast-only --pslot 2013100100_test --idate 2013100100 --edate 2013100100 --app S2SW 
---resdet 384 --start cold --comrot /work/noaa/epic-ps/ufs-mrw-v2.0/coupled/COMROT 
---expdir /work/noaa/epic-ps/ufs-mrw-v2.0/coupled/EXPDIR/C384 --icsdir  /work/noaa/epic-ps/ufs-mrw-v2.0/coupled/ICSDIR
+./setup_expt.py forecast-only --pslot 2013100100_test --idate 2013100100 --edate 2013100100 --app S2SW --resdet 384 --start cold --comrot /work/noaa/epic-ps/ufs-mrw-v2.0/coupled/COMROT --expdir /work/noaa/epic-ps/ufs-mrw-v2.0/coupled/EXPDIR/C384 --icsdir  /work/noaa/epic-ps/ufs-mrw-v2.0/coupled/ICSDIR
 
