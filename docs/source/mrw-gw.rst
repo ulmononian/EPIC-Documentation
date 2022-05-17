@@ -1,5 +1,5 @@
-Using UFS Medium-Range Weather Application with Global Workflow
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+Using UFS Medium-Range Weather Application with Global Workflow for Uncoupled Experiments
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 Set-up
 ^^^^^^

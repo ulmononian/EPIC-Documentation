@@ -12,6 +12,7 @@ UFS MRW workflow
    :maxdepth: 2
 
    UFS-MRW application workflow <mrw-gw>
+   UFS-MRW-GW coupled workflow <cpld_mrw_gw>
 
 Using UFS_UTILS to Prepare Initial Conditions for MRW
 =====================================================
